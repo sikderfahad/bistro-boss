@@ -1,9 +1,24 @@
 // import React from 'react';
 
+import { useContext } from "react";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const OtherLogin = ({ login, signup }) => {
+  const { googleUser } = useContext(AuthContext);
+
+  const handledGoogleLogin = () => {
+    googleUser()
+      .then((res) => {
+        const user = res.user;
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   return (
     <div className="text-center">
       {signup && (
@@ -36,7 +51,10 @@ const OtherLogin = ({ login, signup }) => {
         </Link>
 
         <Link>
-          <div className="w-[50px] flex items-center justify-center h-[50px] rounded-full border border-[#444444] ">
+          <div
+            onClick={handledGoogleLogin}
+            className="w-[50px] flex items-center justify-center h-[50px] rounded-full border border-[#444444] "
+          >
             <FaGoogle className="text-2xl"></FaGoogle>
           </div>
         </Link>

@@ -13,7 +13,7 @@ const TabsCategory = ({ category }) => {
   ];
 
   const initialIndex = categories.indexOf(category);
-  console.log(initialIndex);
+  // console.log(initialIndex);
 
   const [activeTab, setActiveTab] = useState(
     initialIndex === -1 ? 0 : initialIndex

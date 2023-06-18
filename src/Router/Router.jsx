@@ -7,6 +7,8 @@ import OurMenu from "../pages/OurMenu/OurMenu";
 import OurShop from "../pages/OurShop/OurShop/OurShop";
 import Register from "../pages/Register/Register";
 import Authenticate from "../layout/Authenticate/Authenticate";
+import Login from "../pages/Login/Login";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -23,11 +25,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/our-shop/:category",
-        element: <OurShop></OurShop>,
+        element: (
+          <PrivateRoute>
+            <OurShop></OurShop>,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/our-shop",
-        element: <OurShop></OurShop>,
+        element: (
+          <PrivateRoute>
+            <OurShop></OurShop>,
+          </PrivateRoute>
+        ),
       },
 
       {
@@ -48,6 +58,10 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
       },
     ],
   },

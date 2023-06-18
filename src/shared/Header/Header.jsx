@@ -1,8 +1,13 @@
 // import React from 'react';
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 import "./Header.css";
 
+import Nav from "./Nav";
+import { AuthContext } from "../../provider/AuthProvider";
+import { FaSignOutAlt } from "react-icons/fa";
+
 const Header = () => {
+  const { user, logOut } = useContext(AuthContext);
   const nav = [
     { path: "/", label: "Home" },
     { path: "/contact", label: "Contact us" },
@@ -10,7 +15,16 @@ const Header = () => {
     { path: "/our-menu", label: "Our menu" },
     { path: "/our-shop", label: "Our shop" },
     { path: "/register", label: "Sign up" },
+    { path: "/login", label: "Login" },
   ];
+
+  const userLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
   return (
     <div>
       <nav className=" header text-white" style={{ zIndex: "999" }}>
@@ -42,23 +56,21 @@ const Header = () => {
             </svg>
           </button>
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4  md:flex-row md:space-x-8 md:mt-0 md:border-0 ">
+            <ul className="font-medium flex flex-col p-4 items-center md:p-0 mt-4  md:flex-row md:space-x-8 md:mt-0 md:border-0 ">
               {nav.map((item, idx) => (
-                <li key={idx}>
-                  <NavLink
-                    to={item.path}
-                    className={({ isActive, isPending }) =>
-                      isActive
-                        ? "active text-[#EEFF25]"
-                        : isPending
-                        ? "pending"
-                        : "text-white"
-                    }
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
+                <Nav item={item} key={idx}></Nav>
               ))}
+              <li className="text-green-500 font-bold animate-pulse duration-200">
+                {user?.displayName && user.displayName}
+              </li>
+              {user && (
+                <li
+                  onClick={userLogOut}
+                  className="p-3 cursor-pointer bg-transparent border hover:border-[#EEFF25] duration-200 hover:animate-ping rounded-full"
+                >
+                  <FaSignOutAlt className="text-2xl font-semibold text-red-500"></FaSignOutAlt>{" "}
+                </li>
+              )}
             </ul>
           </div>
         </div>
