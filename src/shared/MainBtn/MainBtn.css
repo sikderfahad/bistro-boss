@@ -1,0 +1,24 @@
+.btn-category-overlay {
+  height: 0%;
+  left: 0;
+  bottom: 0;
+  transition: 0.3s ease-in;
+}
+.btn-category:hover .btn-category-overlay {
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: black;
+}
+.btn-category {
+  transition: 0.3s ease-in;
+}
+.btn-category:hover {
+  color: white;
+}
+.btn-category span {
+  transition: 0.3s ease-in;
+}
+.btn-category:hover span {
+  color: white;
+}
