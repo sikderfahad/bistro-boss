@@ -5,6 +5,8 @@ import Home from "../pages/Home/Home/Home";
 import Test from "../pages/Test/Test";
 import OurMenu from "../pages/OurMenu/OurMenu";
 import OurShop from "../pages/OurShop/OurShop/OurShop";
+import Register from "../pages/Register/Register";
+import Authenticate from "../layout/Authenticate/Authenticate";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +29,7 @@ export const router = createBrowserRouter([
         path: "/our-shop",
         element: <OurShop></OurShop>,
       },
+
       {
         path: "/test",
         element: <Test></Test>,
@@ -34,6 +37,17 @@ export const router = createBrowserRouter([
       {
         path: "*",
         element: <ErrorPage></ErrorPage>,
+      },
+    ],
+  },
+
+  {
+    path: "/",
+    element: <Authenticate></Authenticate>,
+    children: [
+      {
+        path: "/register",
+        element: <Register></Register>,
       },
     ],
   },
