@@ -26,17 +26,17 @@ export const router = createBrowserRouter([
       {
         path: "/our-shop/:category",
         element: (
-          <PrivateRoute>
-            <OurShop></OurShop>,
-          </PrivateRoute>
+          <OurShop></OurShop>
+          // <PrivateRoute>
+          // </PrivateRoute>
         ),
       },
       {
         path: "/our-shop",
         element: (
-          <PrivateRoute>
-            <OurShop></OurShop>,
-          </PrivateRoute>
+          <OurShop></OurShop>
+          // <PrivateRoute>
+          // </PrivateRoute>
         ),
       },
 

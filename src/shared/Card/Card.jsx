@@ -1,8 +1,44 @@
 // import React from 'react';
 import { Link } from "react-router-dom";
 import MainBtn from "../MainBtn/MainBtn";
+import { useContext } from "react";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Card = ({ menu }) => {
+  const { user } = useContext(AuthContext);
+
+  const handledCart = () => {
+    if (user) {
+      fetch("http://localhost:3000/cart")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            // Swal.fire({
+            //   position: "top-end",
+            //   icon: "success",
+            //   title: "Your work has been saved",
+            //   showConfirmButton: false,
+            //   timer: 1500,
+            // });
+          }
+        });
+    } else {
+      // Swal.fire({
+      //   title: "Are you sure?",
+      //   text: "You won't be able to revert this!",
+      //   icon: "warning",
+      //   showCancelButton: true,
+      //   confirmButtonColor: "#3085d6",
+      //   cancelButtonColor: "#d33",
+      //   confirmButtonText: "Yes, delete it!",
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //     Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      //     console.log(menu._id);
+      //   }
+      // });
+    }
+  };
   return (
     <div className="border border-gray-200 rounded-lg shadow">
       <div className=" bg-white ">
@@ -18,7 +54,7 @@ const Card = ({ menu }) => {
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
             {menu.recipe}
           </p>
-          <Link>
+          <Link onClick={handledCart}>
             <MainBtn
               text={"add to cart"}
               textColor={"text-yellow-400"}

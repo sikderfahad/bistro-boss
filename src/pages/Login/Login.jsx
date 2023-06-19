@@ -3,7 +3,7 @@ import authenticateBg from "../../assets/others/authentication.png";
 import authenticateImg from "../../assets/others/authentication.gif";
 import OtherLogin from "../../shared/OtherLogin/OtherLogin";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import {
   loadCaptchaEnginge,
@@ -25,21 +25,26 @@ const Login = () => {
     loadCaptchaEnginge(6);
   }, []);
 
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const checkCaptcha = (e) => {
+    e.preventDefault();
+    if (e.key === "Enter") {
+      let user_captcha = document.getElementById("user_captcha_input").value;
+      if (validateCaptcha(user_captcha) === true) {
+        setIsDisabled(false);
+        ToastMsgSuc("Captcha Matched");
+        loadCaptchaEnginge(6);
+        document.getElementById("user_captcha_input").value = "";
+      } else {
+        document.getElementById("user_captcha_input").value = "";
+        return ToastMsgError("Captcha Does Not Match");
+      }
+    }
+  };
+
   const handledUserLogin = (e) => {
     e.preventDefault();
-
-    // if (e.key === "Enter") {
-    // }
-    let user_captcha = document.getElementById("user_captcha_input").value;
-
-    if (validateCaptcha(user_captcha) === true) {
-      ToastMsgSuc("Captcha Matched");
-      loadCaptchaEnginge(6);
-      document.getElementById("user_captcha_input").value = "";
-    } else {
-      document.getElementById("user_captcha_input").value = "";
-      return ToastMsgError("Captcha Does Not Match");
-    }
 
     const form = e.target;
     const email = form.email.value;
@@ -59,6 +64,7 @@ const Login = () => {
 
     console.log(email, password);
   };
+
   return (
     <div
       className="min-h-screen"
@@ -108,6 +114,7 @@ const Login = () => {
 
             <div className="mb-6">
               <input
+                onKeyUp={checkCaptcha}
                 placeholder="Enter Captcha Value"
                 id="user_captcha_input"
                 name="user_captcha_input"
@@ -118,8 +125,12 @@ const Login = () => {
             </div>
 
             <button
+              disabled={isDisabled}
+              id="btnLogin"
               type="submit"
-              className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+              className={`text-white ${
+                isDisabled ? "cursor-not-allowed" : "cursor-pointer"
+              }  bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-lg px-5 py-2.5 text-center`}
             >
               Login
             </button>
