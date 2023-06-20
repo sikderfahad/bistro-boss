@@ -4,10 +4,18 @@ import "./Header.css";
 
 import Nav from "./Nav";
 import { AuthContext } from "../../provider/AuthProvider";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaCartPlus, FaSignOutAlt } from "react-icons/fa";
+import useCart from "../../custom/useCart";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [cart, , isLoading] = useCart();
+  const navigate = useNavigate();
+  const jumpMyCart = () => {
+    navigate("/admin-dashboard/home");
+  };
+  // console.log(cart);
   const nav = [
     { path: "/", label: "Home" },
     { path: "/contact", label: "Contact us" },
@@ -60,7 +68,27 @@ const Header = () => {
               {nav.map((item, idx) => (
                 <Nav item={item} key={idx}></Nav>
               ))}
-              <li className="text-green-500 font-bold animate-pulse duration-200">
+              {user && (
+                <li onClick={jumpMyCart}>
+                  <div className="btn bg-transparent hover:text-gray-900 text-white outline-none border-none relative">
+                    <FaCartPlus className="text-2xl "></FaCartPlus>
+
+                    {cart && (
+                      <div className="badge badge-secondary absolute -top-2 -right-4">
+                        {!isLoading ? (
+                          <>
+                            {cart?.length || 0}
+                            {cart?.length > 99 && "+"}
+                          </>
+                        ) : (
+                          <div className="loading loading-spinner w-[1rem]"></div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </li>
+              )}
+              <li className="text-white font-bold animate-pulse duration-200">
                 {user?.displayName && user.displayName}
               </li>
               {user && (

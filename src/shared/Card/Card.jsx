@@ -1,42 +1,51 @@
 // import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import MainBtn from "../MainBtn/MainBtn";
 import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
+import { ToastMsgSuc } from "../../components/Toast/ToastMsg";
+import Swal from "sweetalert2";
+import useCart from "../../custom/useCart";
 
 const Card = ({ menu }) => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [, refetch] = useCart();
+  // console.log(refetch);
 
   const handledCart = () => {
     if (user) {
-      fetch("http://localhost:3000/cart")
+      const orderItem = { foodItem: menu, email: user.email };
+      fetch("http://localhost:3000/carts", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(orderItem),
+      })
         .then((res) => res.json())
         .then((data) => {
           if (data.insertedId) {
-            // Swal.fire({
-            //   position: "top-end",
-            //   icon: "success",
-            //   title: "Your work has been saved",
-            //   showConfirmButton: false,
-            //   timer: 1500,
-            // });
+            refetch();
+
+            ToastMsgSuc(`'${menu.name}' add to your cart!`);
           }
         });
     } else {
-      // Swal.fire({
-      //   title: "Are you sure?",
-      //   text: "You won't be able to revert this!",
-      //   icon: "warning",
-      //   showCancelButton: true,
-      //   confirmButtonColor: "#3085d6",
-      //   cancelButtonColor: "#d33",
-      //   confirmButtonText: "Yes, delete it!",
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //     Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      //     console.log(menu._id);
-      //   }
-      // });
+      Swal.fire({
+        title: "Login now?",
+        text: "You have to login to order!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login", { state: { from: location.pathname } });
+        }
+      });
     }
   };
   return (
@@ -66,27 +75,6 @@ const Card = ({ menu }) => {
         </div>
       </div>
     </div>
-
-    // <div className="border border-gray-200 rounded-lg shadow">
-    //   <div className="bg-white max-w-sm ">
-    //     <div className="">
-    //       <img
-    //         className="rounded-t-lg rounded-b-none w-full h-[300px]"
-    //         src={menu.image}
-    //         alt=""
-    //       />
-    //     </div>
-    //     <div className="p-8 text-center bg-[#F3F3F3]">
-    //       <h3 className="text-[#151515] text-2xl font-semibold">{menu.name}</h3>
-    //       <p className="mt-2 mb-6">{menu.recipe}</p>
-    //       <MainBtn
-    //         text={"add to cart"}
-    //         textColor={"text-yellow-400"}
-    //         border={"border-yellow-400"}
-    //       ></MainBtn>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

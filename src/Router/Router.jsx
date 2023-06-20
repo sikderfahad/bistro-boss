@@ -9,6 +9,10 @@ import Register from "../pages/Register/Register";
 import Authenticate from "../layout/Authenticate/Authenticate";
 import Login from "../pages/Login/Login";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Dashboard from "../layout/Dashboard/Dashboard";
+import AdminHome from "../pages/AdminHome/AdminHome";
+import AddItems from "../pages/AddItems/AddItems";
+import Contact from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "/our-menu",
         element: <OurMenu></OurMenu>,
+      },
+      {
+        path: "/contact",
+        element: <Contact></Contact>,
       },
       {
         path: "/our-shop/:category",
@@ -52,16 +60,32 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: "/",
+    path: "user",
     element: <Authenticate></Authenticate>,
     children: [
       {
-        path: "/register",
+        path: "register",
         element: <Register></Register>,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login></Login>,
+      },
+    ],
+  },
+
+  // Admin Dashboard Layout
+  {
+    path: "admin-dashboard",
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        path: "home",
+        element: <AdminHome></AdminHome>,
+      },
+      {
+        path: "add-items",
+        element: <AddItems></AddItems>,
       },
     ],
   },

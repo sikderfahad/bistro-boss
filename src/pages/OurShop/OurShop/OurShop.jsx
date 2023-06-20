@@ -6,7 +6,7 @@ import TabsCategory from "../TabsCategory/TabsCategory";
 
 const OurShop = () => {
   const { category } = useParams();
-  console.log(category);
+  // console.log(category);
   return (
     <div>
       <Cover

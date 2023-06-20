@@ -6,6 +6,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { ImWarning } from "react-icons/im";
 
 const Register = () => {
   const { createUser, profileName } = useContext(AuthContext);
@@ -13,6 +15,9 @@ const Register = () => {
   const from = location?.state?.from ? location.state.from : "/";
 
   const navigate = useNavigate();
+  const [err, setErr] = useState("");
+
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const {
     register,
@@ -21,11 +26,25 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  // console.log(watch("name"));
+
+  const checkEmpty = () => {
+    setIsDisabled(true);
+    const isName = watch("name");
+    const isMail = watch("email");
+    const isPass = watch("password");
+    if (isName && isMail && isPass) {
+      setIsDisabled(false);
+      console.log(isDisabled);
+    }
+  };
+
   const onSubmit = (data) => {
     const { name, email, password } = data;
 
     console.log(data);
 
+    setErr("");
     createUser(email, password)
       .then((res) => {
         const user = res.user;
@@ -41,10 +60,16 @@ const Register = () => {
       })
       .catch((err) => {
         console.log(err.message);
+        const error = err.message;
+        const weakPass = error.includes("weak-password");
+        const userExist = error.includes("email-already-in-use");
+        const noInternet = error.includes("network-request-failed");
+
+        weakPass && setErr("Weak password! please make it strong");
+        userExist && setErr("User already exist! please check email");
+        noInternet && setErr("No internet! check your connectivity");
       });
   };
-
-  console.log(watch("example"));
 
   return (
     <div
@@ -68,6 +93,7 @@ const Register = () => {
               <input
                 {...register("name", { required: true, max: 20 })}
                 aria-invalid={errors.name ? "true" : "false"}
+                onBlur={checkEmpty}
                 type="text"
                 id="name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -90,6 +116,7 @@ const Register = () => {
                   required: "Email Address is required",
                 })}
                 aria-invalid={errors.email ? "true" : "false"}
+                onBlur={checkEmpty}
                 type="email"
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -106,7 +133,8 @@ const Register = () => {
                 Your password
               </label>
               <input
-                {...register("password")}
+                {...register("password", { required: "Password is required" })}
+                onBlur={checkEmpty}
                 type="password"
                 id="password"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -116,9 +144,13 @@ const Register = () => {
             </div>
 
             <button
+              title={`${isDisabled ? "Click outside! if form was filled" : ""}`}
+              disabled={isDisabled}
               id="btnSignup"
               type="submit"
-              className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+              className={`text-white ${
+                isDisabled ? "cursor-not-allowed" : "cursor-pointer"
+              } bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-lg px-5 py-2.5 text-center`}
             >
               Sign Up
             </button>
@@ -126,6 +158,12 @@ const Register = () => {
           </form>
         </div>
         <div>
+          {err && (
+            <div className="w-fit px-3 py-4 flex items-center gap-3 bg-red-600 mx-auto font-semibold text-white text-lg my-6 rounded-lg">
+              <ImWarning className="text-2xl font-bold"></ImWarning>
+              <span className=" animate-pulse">{err}</span>
+            </div>
+          )}
           <img
             className="w-full h-full rounded-lg"
             src={authenticateImg}
