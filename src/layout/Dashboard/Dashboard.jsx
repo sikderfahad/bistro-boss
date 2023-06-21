@@ -63,7 +63,7 @@ const cartMenuBottom = [
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="bg-[#0a1929] text-white">
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div
@@ -99,7 +99,7 @@ const Dashboard = () => {
 
           {/* Page content here */}
         </div>
-        <div className="drawer-side w-80 min-h-full bg-gradient-to-b from-red-500 via-pink-500 to-yellow-500">
+        <div className="drawer-side border-r-2 w-fit px-8 min-h-full bg-gradient-to-b from-blue-700 via-gray-800 to-[#0a1929]">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
           <ul className="menu px-4 py-6 grid grid-cols-1 items-center  text-base-content">
             {/* Sidebar content here */}
@@ -131,7 +131,7 @@ const Dashboard = () => {
                           ? "pending"
                           : isActive
                           ? "active font-bold flex items-center gap-3 uppercase text-[#c8c8c8]"
-                          : "font-bold flex items-center gap-3 uppercase text-white"
+                          : "font-bold flex items-center gap-3 uppercase hover:bg-white text-white"
                       }
                     >
                       <span className="text-2xl">{menu.icon}</span>
@@ -155,8 +155,8 @@ const Dashboard = () => {
                         isPending
                           ? "pending"
                           : isActive
-                          ? "active"
-                          : "font-bold flex items-center gap-3 uppercase text-white"
+                          ? "active font-bold flex items-center gap-3 uppercase text-[#c8c8c8]"
+                          : "font-bold flex items-center gap-3 uppercase hover:bg-[#5f9ce5] text-white hover:text-white"
                       }
                     >
                       <span className="text-2xl">{menu.icon}</span>
