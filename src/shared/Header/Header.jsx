@@ -13,7 +13,7 @@ const Header = () => {
   const [cart, , isLoading] = useCart();
   const navigate = useNavigate();
   const jumpMyCart = () => {
-    navigate("/client-dashboard/home");
+    navigate("/client-dashboard/my-cart");
   };
   // console.log(cart);
   const nav = [
@@ -23,8 +23,8 @@ const Header = () => {
     { path: "/admin-dashboard/home", label: "Admin" },
     { path: "/our-menu", label: "Our menu" },
     { path: "/our-shop", label: "Our shop" },
-    { path: "/register", label: "Sign up" },
-    { path: "/login", label: "Login" },
+    { path: "/user/register", label: "Sign up" },
+    { path: "/user/login", label: "Login" },
   ];
 
   const userLogOut = () => {

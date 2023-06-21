@@ -7,7 +7,7 @@ import OurShop from "../pages/OurShop/OurShop/OurShop";
 import Register from "../pages/Register/Register";
 import Authenticate from "../layout/Authenticate/Authenticate";
 import Login from "../pages/Login/Login";
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
+// import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Contact from "../pages/Contact/Contact";
 import AddItems from "../pages/Admin/AddItems/AddItems";
 import AdminHome from "../pages/Admin/AdminHome/AdminHome/AdminHome";
@@ -16,6 +16,8 @@ import DashboardClient from "../layout/Dashboard/Client/DashboardClient";
 import ClientHome from "../pages/Client/ClientHome/ClientHome/ClientHome";
 import NotFound from "../layout/NotFound/NotFound";
 import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
+import MyCart from "../pages/Client/MyCart/MyCart/MyCart";
+import AllUsers from "../pages/Admin/AllUsers/AllUsers/AllUsers";
 
 export const router = createBrowserRouter([
   {
@@ -87,6 +89,10 @@ export const router = createBrowserRouter([
         path: "add-items",
         element: <AddItems></AddItems>,
       },
+      {
+        path: "all-users",
+        element: <AllUsers></AllUsers>,
+      },
     ],
   },
 
@@ -114,6 +120,10 @@ export const router = createBrowserRouter([
       {
         path: "add-items",
         element: <AddItems></AddItems>,
+      },
+      {
+        path: "my-cart",
+        element: <MyCart></MyCart>,
       },
     ],
   },

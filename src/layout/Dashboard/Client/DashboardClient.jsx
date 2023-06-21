@@ -14,6 +14,7 @@ import {
   FaRegCommentAlt,
 } from "react-icons/fa";
 import "./Dashboard.css";
+import useCart from "../../../custom/useCart";
 
 const cartMenuTop = [
   {
@@ -72,6 +73,9 @@ const cartMenuBottom = [
 ];
 
 const DashboardClient = () => {
+  const [cart, , isLoading] = useCart();
+  // refetch()
+
   return (
     <div className="bg-[#0a1929] text-white">
       <div className="drawer lg:drawer-open">
@@ -109,7 +113,7 @@ const DashboardClient = () => {
 
           {/* Page content here */}
         </div>
-        <div className="drawer-side border-r-2 w-fit px-8 min-h-full bg-gradient-to-b from-blue-700 via-gray-800 to-[#0a1929]">
+        <div className="drawer-side sticky top-0 border-r-2 w-fit px-8 min-h-[100vh] bg-gradient-to-b from-blue-700 via-gray-800 to-[#0a1929]">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
           <ul className="menu px-4 py-6 grid grid-cols-1 items-center  text-base-content">
             {/* Sidebar content here */}
@@ -140,13 +144,32 @@ const DashboardClient = () => {
                         isPending
                           ? "pending"
                           : isActive
-                          ? "active font-bold flex items-center gap-3 uppercase text-[#c8c8c8]"
+                          ? "active font-bold flex items-center bg-black gap-3 uppercase text-[#c8c8c8]"
                           : "font-bold flex items-center gap-3 uppercase hover:bg-white text-white"
                       }
                     >
                       <span className="text-2xl">{menu.icon}</span>
-                      <span>{menu.menuName}</span>
+                      <span
+                        className={({ isActive }) =>
+                          isActive ? "animate-pulse" : ""
+                        }
+                      >
+                        {menu.menuName}
+                      </span>
                     </NavLink>
+
+                    {cart && menu.menuName === "my cart" && (
+                      <div className="badge hover:bg-black hover:text-[#fff] w-[30px] h-[30px] flex items-center text-[#f000b8] bg-black badge-secondary absolute -top-4 -left-4">
+                        {!isLoading ? (
+                          <>
+                            {cart?.length || 0}
+                            {cart?.length > 99 && "+"}
+                          </>
+                        ) : (
+                          <div className="loading loading-spinner w-[1rem]"></div>
+                        )}
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -165,7 +188,7 @@ const DashboardClient = () => {
                         isPending
                           ? "pending"
                           : isActive
-                          ? "active font-bold flex items-center gap-3 uppercase text-[#c8c8c8]"
+                          ? "active font-bold flex items-center bg-black gap-3 uppercase text-[#c8c8c8]"
                           : "font-bold flex items-center gap-3 uppercase hover:bg-[#5f9ce5] text-white hover:text-white"
                       }
                     >

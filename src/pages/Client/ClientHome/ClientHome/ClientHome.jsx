@@ -1,11 +1,18 @@
 // import React from 'react';
 
+import ClientData from "../ClientData/ClientData";
 import CounterCard from "../CounterCard/CounterCard";
 
 const ClientHome = () => {
   return (
     <div>
-      <CounterCard></CounterCard>
+      <div>
+        <CounterCard></CounterCard>
+      </div>
+
+      <div className="mt-12">
+        <ClientData></ClientData>
+      </div>
     </div>
   );
 };

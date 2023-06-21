@@ -147,7 +147,7 @@ const Login = () => {
             >
               Login
             </button>
-            <OtherLogin login={true}></OtherLogin>
+            <OtherLogin login={true} from={from}></OtherLogin>
           </form>
         </div>
         <div className="w-1/2 ">

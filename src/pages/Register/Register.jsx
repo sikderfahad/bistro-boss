@@ -12,7 +12,7 @@ import { ImWarning } from "react-icons/im";
 const Register = () => {
   const { createUser, profileName } = useContext(AuthContext);
   const location = useLocation();
-  const from = location?.state?.from ? location.state.from : "/";
+  const from = location?.state?.from || "/";
 
   const navigate = useNavigate();
   const [err, setErr] = useState("");
@@ -52,7 +52,19 @@ const Register = () => {
           displayName: name,
         })
           .then(() => {
-            navigate(from);
+            const user = { name, email, role: "user" };
+            fetch("http://localhost:3000/users", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(user),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                navigate(from);
+              });
           })
           .catch((err) => {
             console.log(err.message);
@@ -154,7 +166,7 @@ const Register = () => {
             >
               Sign Up
             </button>
-            <OtherLogin signup={true}></OtherLogin>
+            <OtherLogin signup={true} from={from}></OtherLogin>
           </form>
         </div>
         <div>

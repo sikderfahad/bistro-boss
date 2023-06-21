@@ -2,17 +2,41 @@
 
 import { useContext } from "react";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
+import { ToastMsgSuc } from "../../components/Toast/ToastMsg";
 
-const OtherLogin = ({ login, signup }) => {
+const OtherLogin = ({ login, signup, from }) => {
   const { googleUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  console.log(from);
 
   const handledGoogleLogin = () => {
     googleUser()
       .then((res) => {
         const user = res.user;
+
         console.log(user);
+
+        const saveUser = {
+          name: user.displayName,
+          email: user.email,
+          role: "user",
+        };
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(saveUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+
+            ToastMsgSuc("User login success!");
+            navigate(from);
+          });
       })
       .catch((err) => {
         console.log(err.message);
