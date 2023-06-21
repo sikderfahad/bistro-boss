@@ -13,13 +13,14 @@ const Header = () => {
   const [cart, , isLoading] = useCart();
   const navigate = useNavigate();
   const jumpMyCart = () => {
-    navigate("/admin-dashboard/home");
+    navigate("/client-dashboard/home");
   };
   // console.log(cart);
   const nav = [
     { path: "/", label: "Home" },
     { path: "/contact", label: "Contact us" },
     { path: "/dashboard", label: "Dashboard" },
+    { path: "/admin-dashboard/home", label: "Admin" },
     { path: "/our-menu", label: "Our menu" },
     { path: "/our-shop", label: "Our shop" },
     { path: "/register", label: "Sign up" },

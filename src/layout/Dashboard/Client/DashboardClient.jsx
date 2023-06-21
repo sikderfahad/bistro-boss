@@ -2,39 +2,49 @@
 
 import { NavLink, Outlet } from "react-router-dom";
 import { GrClose, GrMenu } from "react-icons/gr";
-import { ImSpoonKnife } from "react-icons/im";
 import { AiFillHome } from "react-icons/ai";
+// import {} from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { MdMarkEmailRead } from "react-icons/md";
+import { MdBookmarkAdded, MdMarkEmailRead } from "react-icons/md";
 import { HiShoppingBag } from "react-icons/hi";
-import { FaBook, FaListUl, FaUsers } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaWallet,
+  FaCartArrowDown,
+  FaRegCommentAlt,
+} from "react-icons/fa";
 import "./Dashboard.css";
 
 const cartMenuTop = [
   {
     icon: <AiFillHome></AiFillHome>,
-    menuName: "admin home",
-    path: "/admin-dashboard/home",
+    menuName: "user home",
+    path: "/client-dashboard/home",
   },
   {
-    icon: <ImSpoonKnife></ImSpoonKnife>,
-    menuName: "add items",
-    path: "/admin-dashboard/add-items",
+    icon: <FaCalendarAlt></FaCalendarAlt>,
+    menuName: "reservation",
+    path: "/client-dashboard/reservation",
   },
   {
-    icon: <FaListUl></FaListUl>,
-    menuName: "manage items",
-    path: "/admin-dashboard/manage-items",
+    icon: <FaWallet></FaWallet>,
+    menuName: "payment history",
+    path: "/client-dashboard/payment-history",
   },
   {
-    icon: <FaBook></FaBook>,
-    menuName: "manage bookings",
-    path: "/admin-dashboard/manage-bookings",
+    icon: <FaCartArrowDown></FaCartArrowDown>,
+    menuName: "my cart",
+    path: "/client-dashboard/my-cart",
   },
   {
-    icon: <FaUsers></FaUsers>,
-    menuName: "all users",
-    path: "/admin-dashboard/all-users",
+    icon: <FaRegCommentAlt></FaRegCommentAlt>,
+    menuName: "add review",
+    path: "/client-dashboard/add-review",
+  },
+  {
+    icon: <MdBookmarkAdded></MdBookmarkAdded>,
+    menuName: "my booking",
+    path: "/client-dashboard/my-booking",
   },
 ];
 
@@ -61,7 +71,7 @@ const cartMenuBottom = [
   },
 ];
 
-const Dashboard = () => {
+const DashboardClient = () => {
   return (
     <div className="bg-[#0a1929] text-white">
       <div className="drawer lg:drawer-open">
@@ -173,4 +183,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardClient;

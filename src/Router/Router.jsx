@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorPage from "../components/ErrorPage/ErrorPage";
 import Root from "../layout/Root/Root";
 import Home from "../pages/Home/Home/Home";
 import Test from "../pages/Test/Test";
@@ -9,10 +8,14 @@ import Register from "../pages/Register/Register";
 import Authenticate from "../layout/Authenticate/Authenticate";
 import Login from "../pages/Login/Login";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import Dashboard from "../layout/Dashboard/Dashboard";
-import AdminHome from "../pages/AdminHome/AdminHome";
-import AddItems from "../pages/AddItems/AddItems";
 import Contact from "../pages/Contact/Contact";
+import AddItems from "../pages/Admin/AddItems/AddItems";
+import AdminHome from "../pages/Admin/AdminHome/AdminHome/AdminHome";
+import DashboardAdmin from "../layout/Dashboard/Admin/DashboardAdmin";
+import DashboardClient from "../layout/Dashboard/Client/DashboardClient";
+import ClientHome from "../pages/Client/ClientHome/ClientHome/ClientHome";
+import NotFound from "../layout/NotFound/NotFound";
+import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
 
 export const router = createBrowserRouter([
   {
@@ -52,13 +55,10 @@ export const router = createBrowserRouter([
         path: "/test",
         element: <Test></Test>,
       },
-      {
-        path: "*",
-        element: <ErrorPage></ErrorPage>,
-      },
     ],
   },
 
+  // User Layour
   {
     path: "user",
     element: <Authenticate></Authenticate>,
@@ -77,11 +77,39 @@ export const router = createBrowserRouter([
   // Admin Dashboard Layout
   {
     path: "admin-dashboard",
-    element: <Dashboard></Dashboard>,
+    element: <DashboardAdmin></DashboardAdmin>,
     children: [
       {
         path: "home",
         element: <AdminHome></AdminHome>,
+      },
+      {
+        path: "add-items",
+        element: <AddItems></AddItems>,
+      },
+    ],
+  },
+
+  // 4O4 Page
+  {
+    path: "/",
+    element: <NotFound></NotFound>,
+    children: [
+      {
+        path: "*",
+        element: <NotFoundPage></NotFoundPage>,
+      },
+    ],
+  },
+
+  // Client Dashboard Layout
+  {
+    path: "client-dashboard",
+    element: <DashboardClient></DashboardClient>,
+    children: [
+      {
+        path: "home",
+        element: <ClientHome></ClientHome>,
       },
       {
         path: "add-items",
